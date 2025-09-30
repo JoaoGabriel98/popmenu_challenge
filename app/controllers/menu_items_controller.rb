@@ -2,8 +2,8 @@ class MenuItemsController < ApplicationController
   before_action :set_menu, only: [:index, :create]
   before_action :set_menu_item, only: [:show, :update, :destroy]
 
-  # GET /menus/:menu_id/menu_items  (itens de um menu específico)
-  # GET /menu_items?available=true&q=pepper  (todos os itens com filtros)
+  # GET /menus/:menu_id/menu_items  (specific item menu)
+  # GET /menu_items?available=true&q=pepper  (all itens with filter)
   def index
     scope = @menu ? @menu.menu_items : MenuItem.all
 
