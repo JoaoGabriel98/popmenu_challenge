@@ -1,15 +1,15 @@
 class MenusController < ApplicationController
-  before_action :set_menu, only: [:show, :update, :destroy]
+  before_action :set_menu, only: [ :show, :update, :destroy ]
 
   def index
     menus = Menu.order(created_at: :desc)
-    render json: menus.as_json(only: [:id, :name, :description, :created_at, :updated_at])
+    render json: menus.as_json(only: [ :id, :name, :description, :created_at, :updated_at ])
   end
 
   def show
     render json: @menu.as_json(
-      only: [:id, :name, :description, :created_at, :updated_at],
-      include: { menu_items: { only: [:id, :name, :description, :price_cents, :available] } }
+      only: [ :id, :name, :description, :created_at, :updated_at ],
+      include: { menu_items: { only: [ :id, :name, :description, :price_cents, :available ] } }
     )
   end
 

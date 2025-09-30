@@ -1,6 +1,6 @@
 class MenuItemsController < ApplicationController
-  before_action :set_menu, only: [:index, :create]
-  before_action :set_menu_item, only: [:show, :update, :destroy]
+  before_action :set_menu, only: [ :index, :create ]
+  before_action :set_menu_item, only: [ :show, :update, :destroy ]
 
   # GET /menus/:menu_id/menu_items  (specific item menu)
   # GET /menu_items?available=true&q=pepper  (all itens with filter)
@@ -16,11 +16,11 @@ class MenuItemsController < ApplicationController
     end
 
     items = scope.order(:name)
-    render json: items.as_json(only: [:id, :menu_id, :name, :description, :price_cents, :available])
+    render json: items.as_json(only: [ :id, :menu_id, :name, :description, :price_cents, :available ])
   end
 
   def show
-    render json: @menu_item.as_json(only: [:id, :menu_id, :name, :description, :price_cents, :available, :created_at, :updated_at])
+    render json: @menu_item.as_json(only: [ :id, :menu_id, :name, :description, :price_cents, :available, :created_at, :updated_at ])
   end
 
   def create
