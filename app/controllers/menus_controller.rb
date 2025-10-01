@@ -1,6 +1,6 @@
 class MenusController < ApplicationController
-  before_action :set_restaurant, only: [:index, :create]
-  before_action :set_menu, only: [:show, :link_item, :unlink_item]
+  before_action :set_restaurant, only: [ :index, :create ]
+  before_action :set_menu, only: [ :show, :link_item, :unlink_item ]
 
   # GET /restaurants/:restaurant_id/menus
   # GET /menus (global list)
@@ -11,7 +11,7 @@ class MenusController < ApplicationController
       Menu.all.order(:name)
     end
 
-    render json: menus.as_json(only: [:id, :restaurant_id, :name, :description])
+    render json: menus.as_json(only: [ :id, :restaurant_id, :name, :description ])
   end
 
   # POST /restaurants/:restaurant_id/menus
@@ -27,18 +27,18 @@ class MenusController < ApplicationController
   # GET /menus/:id
   def show
     render json: @menu.as_json(
-      only: [:id, :restaurant_id, :name, :description, :created_at, :updated_at],
-      include: { menu_items: { only: [:id, :restaurant_id, :name, :description, :price_cents, :available] } }
+      only: [ :id, :restaurant_id, :name, :description, :created_at, :updated_at ],
+      include: { menu_items: { only: [ :id, :restaurant_id, :name, :description, :price_cents, :available ] } }
     )
   end
 
   # POST /restaurants/:restaurant_id/menus/:id/menu_items/:menu_item_id/link
   def link_item
     item = MenuItem.find_by(id: params[:menu_item_id])
-    return render(json: { errors: ["MenuItem not found"] }, status: :not_found) unless item
+    return render(json: { errors: [ "MenuItem not found" ] }, status: :not_found) unless item
 
     if item.restaurant_id != @menu.restaurant_id
-      return render json: { errors: ["MenuItem belongs to a different restaurant"] }, status: :not_found
+      return render json: { errors: [ "MenuItem belongs to a different restaurant" ] }, status: :not_found
     end
 
     link = MenuItemization.find_or_create_by!(menu: @menu, menu_item: item)
@@ -48,10 +48,10 @@ class MenusController < ApplicationController
   # DELETE /restaurants/:restaurant_id/menus/:id/menu_items/:menu_item_id/unlink
   def unlink_item
     item = MenuItem.find_by(id: params[:menu_item_id])
-    return render(json: { errors: ["MenuItem not found"] }, status: :not_found) unless item
+    return render(json: { errors: [ "MenuItem not found" ] }, status: :not_found) unless item
 
     if item.restaurant_id != @menu.restaurant_id
-      return render json: { errors: ["MenuItem belongs to a different restaurant"] }, status: :not_found
+      return render json: { errors: [ "MenuItem belongs to a different restaurant" ] }, status: :not_found
     end
 
     MenuItemization.where(menu: @menu, menu_item: item).delete_all

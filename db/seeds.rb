@@ -23,8 +23,8 @@ margherita = r1.menu_items.create!(name: "Margherita", description: "Tomato, moz
 pepperoni  = r1.menu_items.create!(name: "Pepperoni",  description: "Pepperoni & cheese",       price_cents: 2900, available: true)
 lasagna    = r1.menu_items.create!(name: "Lasagna",     description: "Layers of pasta & cheese", price_cents: 3200, available: true)
 
-[lunch_r1, dinner_r1].each do |m|
-  [margherita, pepperoni].each { |it| MenuItemization.find_or_create_by!(menu: m, menu_item: it) }
+[ lunch_r1, dinner_r1 ].each do |m|
+  [ margherita, pepperoni ].each { |it| MenuItemization.find_or_create_by!(menu: m, menu_item: it) }
 end
 MenuItemization.find_or_create_by!(menu: dinner_r1, menu_item: lasagna)
 

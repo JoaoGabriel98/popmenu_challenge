@@ -1,16 +1,16 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show]
+  before_action :set_restaurant, only: [ :show ]
 
   def index
     restaurants = Restaurant.order(:name)
-    render json: restaurants.as_json(only: [:id, :name, :slug])
+    render json: restaurants.as_json(only: [ :id, :name, :slug ])
   end
 
   def show
     render json: @restaurant.as_json(
-      only: [:id, :name, :slug, :created_at, :updated_at],
+      only: [ :id, :name, :slug, :created_at, :updated_at ],
       include: {
-        menus: { only: [:id, :name, :description] }
+        menus: { only: [ :id, :name, :description ] }
       }
     )
   end

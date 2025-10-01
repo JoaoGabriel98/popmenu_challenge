@@ -1,6 +1,6 @@
 class MenuItemsController < ApplicationController
-  before_action :set_restaurant, only: [:index, :create]
-  before_action :set_menu_item, only: [:show, :update, :destroy]
+  before_action :set_restaurant, only: [ :index, :create ]
+  before_action :set_menu_item, only: [ :show, :update, :destroy ]
 
   # GET /restaurants/:restaurant_id/menu_items
   # GET /menu_items?restaurant_id=...&available=true&q=...
@@ -16,7 +16,7 @@ class MenuItemsController < ApplicationController
     scope = scope.where(available: cast_bool(params[:available])) if params.key?(:available)
     scope = scope.where("name ILIKE ?", "%#{params[:q]}%") if params[:q].present?
 
-    render json: scope.order(:name).as_json(only: [:id, :restaurant_id, :name, :description, :price_cents, :available])
+    render json: scope.order(:name).as_json(only: [ :id, :restaurant_id, :name, :description, :price_cents, :available ])
   end
 
   # POST /restaurants/:restaurant_id/menu_items
@@ -30,7 +30,7 @@ class MenuItemsController < ApplicationController
   end
 
   def show
-    render json: @menu_item.as_json(only: [:id, :restaurant_id, :name, :description, :price_cents, :available, :created_at, :updated_at])
+    render json: @menu_item.as_json(only: [ :id, :restaurant_id, :name, :description, :price_cents, :available, :created_at, :updated_at ])
   end
 
   def update
