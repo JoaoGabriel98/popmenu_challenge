@@ -5,7 +5,7 @@ class ImportsController < ApplicationController
       if params[:file].present?
         JSON.parse(params[:file].read)
       else
-        params.require(:data).permit.to_h # wait { data: {...} }
+        params.require(:data).permit!.to_h # wait { data: {...} }
       end
 
     result = Importers::RestaurantDataImporter.new(payload: payload).call
