@@ -3,6 +3,10 @@
 A production-ready implementation of the Popmenu coding challenge, delivered iteratively across **Level 1, Level 2, and Level 3**.
 Stack: **Ruby on Rails** · **PostgreSQL** · **RSpec**.
 
+## Warning
+
+I advice to have a look on the closed PR's to make this challenge. This is because I wanted to show a sense of progress. On the PR, I talk about the changes a little bit.
+
 ## Quickstart
 
 ### Requirements
