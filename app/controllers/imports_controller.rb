@@ -12,7 +12,7 @@ class ImportsController < ApplicationController
     result = Importers::RestaurantDataImporter.new(payload: payload).call
     render json: result, status: (result[:success] ? :ok : :unprocessable_content)
   rescue ActionController::ParameterMissing => e
-    render json: { success: false, errors_count: 1, logs: [{ scope: "import", action: "error", errors: [e.message] }] },
+    render json: { success: false, errors_count: 1, logs: [ { scope: "import", action: "error", errors: [ e.message ] } ] },
            status: :unprocessable_content
   end
 
@@ -27,8 +27,8 @@ class ImportsController < ApplicationController
           menus: [
             :name, :description,
             # support either "menu_items" or "dishes"
-            { menu_items: [:name, :description, :price, :price_cents, :available] },
-            { dishes:     [:name, :description, :price, :price_cents, :available] }
+            { menu_items: [ :name, :description, :price, :price_cents, :available ] },
+            { dishes:     [ :name, :description, :price, :price_cents, :available ] }
           ]
         }
       ]
