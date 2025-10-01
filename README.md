@@ -1,4 +1,4 @@
-# Popmenu Challenge — Level 1 (Rails + PostgreSQL)
+# Popmenu Challenge — (Rails + PostgreSQL)
 
 This repository contains a minimal, production-ready **Level 1** implementation for the Popmenu coding challenge.
 Stack: **Ruby on Rails + PostgreSQL + RSpec**.
