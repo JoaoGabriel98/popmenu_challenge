@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_30_235853) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_01_022935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,9 +20,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_30_235853) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "price_cents"
     t.index ["menu_id", "menu_item_id"], name: "index_menu_itemizations_on_menu_id_and_menu_item_id", unique: true
     t.index ["menu_id"], name: "index_menu_itemizations_on_menu_id"
     t.index ["menu_item_id"], name: "index_menu_itemizations_on_menu_item_id"
+    t.index ["price_cents"], name: "index_menu_itemizations_on_price_cents"
   end
 
   create_table "menu_items", force: :cascade do |t|

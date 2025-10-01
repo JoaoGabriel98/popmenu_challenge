@@ -26,11 +26,29 @@ class MenusController < ApplicationController
 
   # GET /menus/:id
   def show
-    render json: @menu.as_json(
-      only: [ :id, :restaurant_id, :name, :description, :created_at, :updated_at ],
-      include: { menu_items: { only: [ :id, :restaurant_id, :name, :description, :price_cents, :available ] } }
-    )
+    items = @menu.menu_itemizations.includes(:menu_item).order(:position).map do |mi|
+      item = mi.menu_item
+      {
+        id: item.id,
+        restaurant_id: item.restaurant_id,
+        name: item.name,
+        description: item.description,
+        price_cents: mi.price_cents || item.price_cents,
+        available: item.available
+      }
+    end
+
+    render json: {
+      id: @menu.id,
+      restaurant_id: @menu.restaurant_id,
+      name: @menu.name,
+      description: @menu.description,
+      created_at: @menu.created_at,
+      updated_at: @menu.updated_at,
+      menu_items: items
+    }
   end
+
 
   # POST /restaurants/:restaurant_id/menus/:id/menu_items/:menu_item_id/link
   def link_item

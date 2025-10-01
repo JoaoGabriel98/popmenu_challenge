@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     resources :menu_items, only: [ :index, :create, :show, :update, :destroy ]
   end
 
+  # Global Menus/Items (Reading)
   resources :menus, only: [ :index, :show ]
   resources :menu_items, only: [ :index, :show ]
+
+  # Import JSON
+  post "/imports/restaurant_json", to: "imports#restaurant_json"
 end
