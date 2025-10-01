@@ -1,35 +1,36 @@
 class MenuItemsController < ApplicationController
-  before_action :set_menu, only: [ :index, :create ]
-  before_action :set_menu_item, only: [ :show, :update, :destroy ]
+  before_action :set_restaurant, only: [:index, :create]
+  before_action :set_menu_item, only: [:show, :update, :destroy]
 
-  # GET /menus/:menu_id/menu_items  (specific item menu)
-  # GET /menu_items?available=true&q=pepper  (all itens with filter)
+  # GET /restaurants/:restaurant_id/menu_items
+  # GET /menu_items?restaurant_id=...&available=true&q=...
   def index
-    scope = @menu ? @menu.menu_items : MenuItem.all
-
-    if params.key?(:available)
-      scope = scope.where(available: ActiveModel::Type::Boolean.new.cast(params[:available]))
+    scope = if @restaurant
+      @restaurant.menu_items
+    elsif params[:restaurant_id]
+      Restaurant.find(params[:restaurant_id]).menu_items
+    else
+      MenuItem.all
     end
 
-    if params[:q].present?
-      scope = scope.where("name ILIKE ?", "%#{params[:q]}%")
-    end
+    scope = scope.where(available: cast_bool(params[:available])) if params.key?(:available)
+    scope = scope.where("name ILIKE ?", "%#{params[:q]}%") if params[:q].present?
 
-    items = scope.order(:name)
-    render json: items.as_json(only: [ :id, :menu_id, :name, :description, :price_cents, :available ])
+    render json: scope.order(:name).as_json(only: [:id, :restaurant_id, :name, :description, :price_cents, :available])
   end
 
-  def show
-    render json: @menu_item.as_json(only: [ :id, :menu_id, :name, :description, :price_cents, :available, :created_at, :updated_at ])
-  end
-
+  # POST /restaurants/:restaurant_id/menu_items
   def create
-    item = @menu.menu_items.new(menu_item_params)
+    item = @restaurant.menu_items.new(menu_item_params)
     if item.save
       render json: item, status: :created
     else
       render json: { errors: item.errors.full_messages }, status: :unprocessable_content
     end
+  end
+
+  def show
+    render json: @menu_item.as_json(only: [:id, :restaurant_id, :name, :description, :price_cents, :available, :created_at, :updated_at])
   end
 
   def update
@@ -47,15 +48,19 @@ class MenuItemsController < ApplicationController
 
   private
 
-  def set_menu
-    @menu = Menu.find(params[:menu_id]) if params[:menu_id]
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:restaurant_id]) if params[:restaurant_id]
   end
 
   def set_menu_item
-    @menu_item = MenuItem.find(params[:id]) if params[:id]
+    @menu_item = MenuItem.find(params[:id])
   end
 
   def menu_item_params
     params.require(:menu_item).permit(:name, :description, :price_cents, :available)
+  end
+
+  def cast_bool(val)
+    ActiveModel::Type::Boolean.new.cast(val)
   end
 end
