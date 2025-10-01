@@ -13,7 +13,7 @@ class ImportsController < ApplicationController
 
     render json: result, status: status
   rescue ActionController::ParameterMissing => e
-    render json: { success: false, errors_count: 1, logs: [{ scope: "import", action: "error", errors: [e.message] }] },
+    render json: { success: false, errors_count: 1, logs: [ { scope: "import", action: "error", errors: [ e.message ] } ] },
            status: :unprocessable_content
   end
 end

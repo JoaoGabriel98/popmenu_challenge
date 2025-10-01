@@ -15,7 +15,7 @@ module Importers
     def call
       restaurants = Array(@payload["restaurants"])
       if restaurants.empty?
-        log_error("import", nil, ["No restaurants found in payload"])
+        log_error("import", nil, [ "No restaurants found in payload" ])
         return result(false)
       end
 
@@ -26,7 +26,7 @@ module Importers
       result(@errors.zero?)
     rescue => e
       @logger.error(e.full_message)
-      log_error("import", nil, [e.message])
+      log_error("import", nil, [ e.message ])
       result(false)
     end
 
@@ -51,7 +51,7 @@ module Importers
             price = item_json["price"]
 
             if name.blank?
-              log_error("menu_item", nil, ["Missing name"], menu:, restaurant:)
+              log_error("menu_item", nil, [ "Missing name" ], menu:, restaurant:)
               next
             end
 
@@ -76,7 +76,7 @@ module Importers
             rescue ActiveRecord::RecordInvalid => e
               log_error("menu_item", name, e.record.errors.full_messages, menu:, restaurant:)
             rescue => e
-              log_error("menu_item", name, [e.message], menu:, restaurant:)
+              log_error("menu_item", name, [ e.message ], menu:, restaurant:)
             end
           end
         end
