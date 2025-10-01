@@ -12,6 +12,27 @@ Stack: **Ruby on Rails + PostgreSQL + RSpec**.
 * **Seeds:** sample data for quick inspection
 * **Tests:** RSpec model and request specs (with FactoryBot, Shoulda)
 
+## What Level 2 Includes
+
+* **Models & Relationships:**
+  * New **`Restaurant`** model
+  * **`Menu`** now `belongs_to :restaurant`
+  * **`MenuItem`** now `belongs_to :restaurant` *(no longer belongs to a menu)*
+  * **`Menu` ↔ `MenuItem`** is **many-to-many** via **`MenuItemization`**
+
+* **Uniqueness Rule:**
+  * **`MenuItem.name`** is **unique per restaurant** *(scoped by `restaurant_id`)*
+  * If you prefer **global** uniqueness, enforce a unique index on **`menu_items.name`** alone
+
+* **Controllers/Routes (Endpoints):**
+  * **Create/List Menus** within a restaurant
+  * **Create/List Items** within a restaurant
+  * **Link / Unlink** existing items to menus
+
+* **Tests:**
+  * RSpec coverage (**models + requests**) aligned with the new Level 2 domain
+
+
 ## Next Steps (for Level 2+)
 
 * Introduce `Restaurant` and evolve relationships (e.g., one restaurant with multiple menus; item reuse rules).

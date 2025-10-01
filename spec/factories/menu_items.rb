@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :menu_item do
-    association :menu
+    association :restaurant
     name { Faker::Food.dish }
     description { Faker::Food.description }
     price_cents { rand(500..5000) }
